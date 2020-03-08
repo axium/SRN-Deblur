@@ -20,7 +20,7 @@ class DEBLUR(object):
         self.chns = 3 if self.args.model == 'color' else 1  # input / output channels
 
         # if args.phase == 'train':
-        self.crop_size = 256
+        self.crop_size = 64
         self.data_list = open(args.datalist, 'rt').read().splitlines()
         self.data_list = list(map(lambda x: x.split(' '), self.data_list))
         random.shuffle(self.data_list)
