@@ -6,6 +6,7 @@ import tensorflow as tf
 import models.model as model
 
 
+
 def parse_args():
     parser = argparse.ArgumentParser(description='deblur arguments')
     parser.add_argument('--phase', type=str, default='train', help='determine whether train or test')
