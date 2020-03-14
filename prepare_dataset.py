@@ -65,6 +65,7 @@ def create_blurry_images_in_dataset(image_files: List[Path], blur_files: List[Pa
 
 
 if __name__ == '__main__':
+    # unzip celeba_data.zip file in training_set folder and run this script followed by run_model.py with training configs.
     dataset_dir = Path('./training_set/data/celebA')
     celeba_files = natsorted(list(dataset_dir.glob('*.jpg')))
     assert len(celeba_files) == 179999, f'There should be 179,999 files in the CelebA folder'
