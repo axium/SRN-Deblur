@@ -14,7 +14,7 @@ def _copy_file_to_dataset_dir(files: List[Path], dataset_dir: Path):
 
 
 def _generate_blurry(x: np.ndarray, w: np.ndarray, noise_std: float = 0.01) -> np.ndarray:
-    x = (x / 256).astype('float')
+    x = (x / 255).astype('float')
     channels = x.shape[-1]
     padding = np.int((x.shape[0] - w.shape[0]) / 2)
     w = np.lib.pad(w, padding, mode='constant', constant_values=0)
