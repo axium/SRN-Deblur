@@ -3,6 +3,8 @@ import os
 import time
 import random
 import datetime
+import skimage.io as sio
+import skimage.transform as skt
 import scipy.misc
 import numpy as np
 import tensorflow as tf
@@ -273,10 +275,10 @@ class DEBLUR(object):
         sess = tf.Session(config=tf.ConfigProto(gpu_options=tf.GPUOptions(allow_growth=True)))
 
         self.saver = tf.train.Saver()
-        self.load(sess, self.train_dir, step=523000)
+        self.load(sess, self.train_dir, step=640000)
 
         for imgName in imgsName:
-            blur = scipy.misc.imread(os.path.join(input_path, imgName))
+            blur = sio.imread(os.path.join(input_path, imgName))
             h, w, c = blur.shape
             # make sure the width is larger than the height
             rot = False
@@ -290,7 +292,7 @@ class DEBLUR(object):
                 scale = min(1.0 * H / h, 1.0 * W / w)
                 new_h = int(h * scale)
                 new_w = int(w * scale)
-                blur = scipy.misc.imresize(blur, [new_h, new_w], 'bicubic')
+                blur = skt.resize(blur, [new_h, new_w], 'bicubic')
                 resize = True
                 blurPad = np.pad(blur, ((0, H - new_h), (0, W - new_w), (0, 0)), 'edge')
             else:
@@ -310,10 +312,10 @@ class DEBLUR(object):
             # crop the image into original size
             if resize:
                 res = res[:new_h, :new_w, :]
-                res = scipy.misc.imresize(res, [h, w], 'bicubic')
+                res = skt.resize(res, [h, w], 'bicubic')
             else:
                 res = res[:h, :w, :]
 
             if rot:
                 res = np.transpose(res, [1, 0, 2])
-            scipy.misc.imsave(os.path.join(output_path, imgName), res)
+            sio.imsave(os.path.join(output_path, imgName), res)
